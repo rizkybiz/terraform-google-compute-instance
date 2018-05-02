@@ -1,6 +1,6 @@
 variable "region" {}
 
-variable "amount" {}
+variable "count" {}
 variable "name_prefix" {}
 variable "machine_type" {}
 variable "user_data" {}
@@ -11,6 +11,8 @@ variable "disk_type" {
 
 variable "disk_size" {}
 variable "disk_image" {}
+
+variable "subnetwork" {}
 
 variable "disk_create_local_exec_command_or_fail" {
   default = ":"

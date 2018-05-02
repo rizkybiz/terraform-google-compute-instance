@@ -22,5 +22,6 @@ module "gci_test" {
   machine_type = "custom-2-2048"
   disk_size    = "32"
   disk_image   = "${data.google_compute_image.coreos_stable.self_link}"
+  subnetwork   = "${resource.google_compute_subnetwork.new_subnetwork.self_link}"
 }
 ```

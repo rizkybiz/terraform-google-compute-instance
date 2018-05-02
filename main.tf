@@ -4,12 +4,12 @@ data "google_compute_zones" "available" {
 }
 
 resource "google_compute_address" "instances" {
-  count = "${var.amount}"
+  count = "${var.count}"
   name  = "${var.name_prefix}-${count.index}"
 }
 
 resource "google_compute_disk" "instances" {
-  count = "${var.amount}"
+  count = "${var.count}"
 
   name = "${var.name_prefix}-${count.index+1}"
   type = "${var.disk_type}"
@@ -42,7 +42,7 @@ resource "google_compute_disk" "instances" {
 }
 
 resource "google_compute_instance" "instances" {
-  count = "${var.amount}"
+  count = "${var.count}"
 
   name         = "${var.name_prefix}-${count.index+1}"
   zone         = "${data.google_compute_zones.available.names[count.index % length(data.google_compute_zones.available.names)]}"
@@ -58,7 +58,7 @@ resource "google_compute_instance" "instances" {
   }
 
   network_interface = {
-    network = "default"
+    subnetwork = "${var.subnetwork}"
 
     access_config = {
       nat_ip = "${google_compute_address.instances.*.address[count.index]}"
