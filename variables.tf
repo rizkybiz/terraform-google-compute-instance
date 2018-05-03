@@ -14,18 +14,4 @@ variable "disk_image" {}
 
 variable "subnetwork" {}
 
-variable "disk_create_local_exec_command_or_fail" {
-  default = ":"
-}
-
-variable "disk_create_local_exec_command_and_continue" {
-  default = ":"
-}
-
-variable "disk_destroy_local_exec_command_or_fail" {
-  default = ":"
-}
-
-variable "disk_destroy_local_exec_command_and_continue" {
-  default = ":"
-}
+variable "startup_script" {}

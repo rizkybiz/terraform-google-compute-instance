@@ -17,28 +17,6 @@ resource "google_compute_disk" "instances" {
   zone = "${data.google_compute_zones.available.names[count.index % length(data.google_compute_zones.available.names)]}"
 
   image = "${var.disk_image}"
-
-  provisioner "local-exec" {
-    command    = "${var.disk_create_local_exec_command_or_fail}"
-    on_failure = "fail"
-  }
-
-  provisioner "local-exec" {
-    command    = "${var.disk_create_local_exec_command_and_continue}"
-    on_failure = "continue"
-  }
-
-  provisioner "local-exec" {
-    when       = "destroy"
-    command    = "${var.disk_destroy_local_exec_command_or_fail}"
-    on_failure = "fail"
-  }
-
-  provisioner "local-exec" {
-    when       = "destroy"
-    command    = "${var.disk_destroy_local_exec_command_and_continue}"
-    on_failure = "continue"
-  }
 }
 
 resource "google_compute_instance" "instances" {
@@ -56,6 +34,8 @@ resource "google_compute_instance" "instances" {
   metadata {
     user-data = "${replace(replace(var.user_data, "$$ZONE", data.google_compute_zones.available.names[count.index]), "$$REGION", var.region)}"
   }
+
+  metadata_startup_script = "${var.startup_script}"
 
   network_interface = {
     subnetwork = "${var.subnetwork}"
