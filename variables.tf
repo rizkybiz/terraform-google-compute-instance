@@ -5,7 +5,9 @@ variable "region" {
 variable "count" {}
 variable "name_prefix" {}
 variable "machine_type" {}
-variable "user_data" {}
+variable "user_data" {
+  default = ""
+}
 
 variable "disk_type" {
   default = "pd-ssd"
