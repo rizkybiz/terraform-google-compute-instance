@@ -9,7 +9,7 @@ resource "google_compute_address" "instances" {
 }
 
 resource "google_compute_disk" "instances" {
-  count = "${var.count}"
+  count = "${var.instance_count}"
 
   name = "${var.name_prefix}-${count.index+1}"
   type = "${var.disk_type}"
@@ -20,7 +20,7 @@ resource "google_compute_disk" "instances" {
 }
 
 resource "google_compute_instance" "instances" {
-  count = "${var.count}"
+  count = "${var.instance_count}"
 
   name         = "${var.name_prefix}-${count.index+1}"
   zone         = "${data.google_compute_zones.available.names[count.index % length(data.google_compute_zones.available.names)]}"
