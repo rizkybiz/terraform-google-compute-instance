@@ -2,7 +2,7 @@ variable "region" {
   default = "us-east1"
 }
 
-variable "count" {}
+variable "instance_count" {}
 variable "name_prefix" {}
 variable "machine_type" {}
 variable "user_data" {
