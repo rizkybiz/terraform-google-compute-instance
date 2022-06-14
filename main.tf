@@ -4,7 +4,7 @@ data "google_compute_zones" "available" {
 }
 
 resource "google_compute_address" "instances" {
-  count = "${var.count}"
+  count = "${var.instance_count}"
   name  = "${var.name_prefix}-${count.index}"
 }
 
@@ -26,21 +26,21 @@ resource "google_compute_instance" "instances" {
   zone         = "${data.google_compute_zones.available.names[count.index % length(data.google_compute_zones.available.names)]}"
   machine_type = "${var.machine_type}"
 
-  boot_disk = {
+  boot_disk {
     source      = "${google_compute_disk.instances.*.name[count.index]}"
     auto_delete = false
   }
 
-  metadata {
+  metadata = {
     user-data = "${replace(replace(var.user_data, "$$ZONE", data.google_compute_zones.available.names[count.index]), "$$REGION", var.region)}"
   }
 
   metadata_startup_script = "${var.startup_script}"
 
-  network_interface = {
+  network_interface {
     subnetwork = "${var.subnetwork}"
 
-    access_config = {
+    access_config {
       nat_ip = "${google_compute_address.instances.*.address[count.index]}"
     }
   }
