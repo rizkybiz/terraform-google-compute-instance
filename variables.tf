@@ -16,7 +16,7 @@ variable "disk_type" {
 variable "disk_size" {}
 variable "disk_image" {}
 
-variable "network" {}
+variable "subnetwork" {}
 
 variable "startup_script" {
   default = <<EOF
